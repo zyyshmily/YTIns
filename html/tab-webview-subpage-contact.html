@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>通讯录</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<style>
+			html,body {
+				background-color: #efeff4;
+			}
+			.title{
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			 .oa-contact-cell.mui-table .mui-table-cell {
+				padding: 11px 0;
+				vertical-align: middle;
+			}
+			
+			.oa-contact-cell {
+				position: relative;
+				margin: -11px 0;
+			}
+	
+			.oa-contact-avatar {
+				width: 75px;
+			}
+			.oa-contact-avatar img {
+				border-radius: 50%;
+			}
+			.oa-contact-content {
+				width: 100%;
+			}
+			.oa-contact-name {
+				margin-right: 20px;
+			}
+			.oa-contact-name, oa-contact-position {
+				float: left;
+			}
+			.mui-bar + .search{
+				margin-top: 50px;
+				
+			}
+		</style>
+	</head>
+	
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">通讯录</h1>
+			
+		</header>
+		<div class="search" data-clicked="1">
+                <input id='contact-member' type="search" name="contact-search" required="" placeholder="搜索" x-webkit-speech="" x-webkit-grammar="builtin:search" lang="zh-CN">
+            </div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script>
+			mui.init({
+	    subpages:[{
+	      url:"contact-sub.html",
+	      id:"contact-sub.html",
+	      styles:{
+	        top:"96px",
+	        bottom:"0px",
+	      }
+	    }]
+	  });
+		
+		
+		
+	</script>
+</html>

@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>申请单</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/adtooa.css" />
+		<style>
+			.icon-wrapper {
+				width: 40px;
+				height: 40px;
+				margin: 0;
+				border-radius: 50%;
+				text-align: center;
+				vertical-align: middle;
+				background-color: #82C8A6;
+			}
+			
+			.icon-wrapper i {
+				color: #fff;
+				line-height: 1.7;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				padding: 0;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				background-color: #fff;
+				border-right: 1px solid #f8f8f8;
+				border-bottom: 1px solid #f8f8f8;
+			}
+			
+			#applicationNew a>img {
+				width: 50%;
+			}
+			
+			.contact-letter {
+				margin-top: 5px;
+			}
+			
+			.targetFix {
+				margin-left: 10px;
+			}
+			
+			.mui-content .letter {
+				position: fixed;
+				right: 10px;
+				top: 0;
+				width: 10px;
+			}
+			
+			.mui-content .letter>li>a {
+				font-size: 1em;
+			}
+			
+			.mui-content .letter>li {
+				width: 100%;
+				display: inline-block;
+				font-size: 14px;
+				line-height: 1.3;
+				float: left;
+				clear: both;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div>
+
+			<!-- main -->
+			<main>
+
+				<div class="mui-content">
+
+					<div id="memberAddress">
+
+						<div v-for="member in memberaddress">
+							<h4 class="contact-letter"><a v-bind:id="member.py" class="targetFix" v-text="member.py"></a></h4>
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell" v-for="item in member.data">
+									<a :href="'contact-member.html'" :data-name="item.RealName" :data-department="item.DepartmentName" :data-tel="item.Telephone" :data-mobile="item.Mobile" :data-oicq="item.OICQ" v-text="item.RealName"></a>
+								</li>
+							</ul>
+						</div>
+						<ul class="letter">
+							<li v-for="member in memberaddress">
+								<a :href='"#"+member.py' v-text="member.py"></a>
+							</li>
+						</ul>
+					</div>
+
+				</div>
+			</main>
+
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/adtooa.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+
+		<script type="text/javascript">
+			//通讯录
+			var memberAddress = new Vue({
+				el: "#memberAddress",
+				data: {
+					memberaddress: []
+				}
+			});
+
+			mui.init({
+				swipeBack: false
+			});
+
+			mui.plusReady(function() {
+
+				requestDataGet(app.apihost+"/api/Account/ContactList", pageIndex, pageSize, function(xhrdata) {
+					if(xhrdata.length !== 0) {
+						Vue.nextTick(function() {							
+						memberAddress.memberaddress = xhrdata;
+							mui('.mui-table-view').on('tap', 'a', function() {	
+								var name = this.getAttribute('data-name');
+								var department = this.getAttribute('data-department');
+								var tel = this.getAttribute('data-tel');
+								var mobile = this.getAttribute('data-mobile');
+								var oicq = this.getAttribute('data-oicq');
+								mui.openWindow({
+									url: "contact-member.html",
+									id: "contactmember",
+									creatNew: false,
+									extras: {
+										Name: name,
+										Department: department,
+										Tel: tel,
+										Mobile: mobile,
+										Oicq: oicq
+									}
+								});
+							});
+						});
+					}
+												
+							
+
+				});
+				
+				
+
+			})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>查看考勤</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/adtooa.css" />
+		<style>
+			/**** attendance ****/
+			
+			.attendance {
+				background-color: #fff;
+				font-size: .28rem;
+				margin-top: .1rem;
+			}
+			
+			.attendance>li {
+				border-top: 1px #eee solid;
+			}
+			
+			.attendance>li span {
+				margin-left: .24rem;
+				background-color: #ee6677;
+				border-radius: 0 0 .1rem .1rem;
+				padding: .065rem .2rem;
+				color: #fff;
+			}
+			
+			.everyday-attendance {
+				width: 100%;
+				overflow: hidden;
+				padding: .2rem 0 .3rem;
+			}
+			
+			.everyday-attendance li {
+				width: 33%;
+				float: left;
+				text-align: center;
+				line-height: .68rem;
+				height: .68rem;
+			}
+			
+			.everyday-attendance li:nth-child(3n+1) {
+				clear: left;
+			}
+			
+			.everyday-attendance li i {
+				margin-right: .05rem;
+				vertical-align: middle;
+				opacity: .5;
+			}
+			
+			.abnormal {
+				color: #ee1029;
+				background-color: #ffe9ec;
+			}
+			
+			.status {
+				display: none;
+				color: #9d9d9d;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div id="task">
+
+			<!-- main -->
+			<main>
+
+				<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+					<div class="mui-scroll">
+
+						<ul class="attendance" id="attendanceList" v-if="attendancelist">
+							<li v-for="item in attendancelist" class="listL">
+								<span v-text="item.AttDate"></span>
+								<ul class="everyday-attendance">
+									<li><i class="iconfont orange">&#xe640;</i> 上班</li>
+									<li v-text="(item.AMInAttTime!=='00:00:00')?item.AMInAttTime:item.AMInType"></li>
+									<li v-if="item.AMInType!=='未打卡'" v-text="item.AMInType"></li>
+									<li v-else class="abnormal">
+										<a :href="'/WorkFlowRun/Index?flowid=E56529EB-65AB-4A6B-9A8C-F291FBBB00C4&AppID=0a462580-34ec-4798-bec0-c94ef8c1c1da$'+item.AttDate">填写考勤异常单</a>
+									</li>
+
+									<li><i class="iconfont blue">&#xe6c1;</i> 下班</li>
+									<li v-text="(item.PMOutAttTime!=='00:00:00')?item.PMOutAttTime:item.PMOutType"></li>
+									<li v-if="item.PMOutType!=='未打卡'" v-text="item.PMOutType"></li>
+									<li v-else class="abnormal">
+										<a :href="'/WorkFlowRun/Index?flowid=E56529EB-65AB-4A6B-9A8C-F291FBBB00C4&AppID=0a462580-34ec-4798-bec0-c94ef8c1c1da$'+item.AttDate">填写考勤异常单</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+
+					</div>
+				</div>
+
+			</main>
+
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/adtooa.js" type="text/javascript" charset="utf-8"></script>
+
+		<script type="text/javascript">
+			var attendanceList;
+			mui.init({
+				swipeBack: false,
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+				/**
+				 * 下拉刷新具体业务实现
+				 */
+				function pulldownRefresh() {
+					setTimeout(function() {
+						pageIndex = 1;
+						GetAttendanceList('', new Date().toLocaleDateString() - 7, new Date().toLocaleDateString(), false, pageSize, pageIndex, 'EnrollNumber', 'desc', function(xhrdata) {
+
+							if(xhrdata.length !== 0) {
+								if(JSON.stringify(taskTodo.tasktodo) == JSON.stringify(xhrdata)) {
+									return;
+								} else {
+									Vue.nextTick(function() {
+										document.querySelector('.nodata').style.display = 'none';
+										attendanceList.attendancelist = attendanceList.attendancelist.concat(xhrdata.Data);
+										mui('#pullrefresh').pullRefresh().enablePullupToRefresh();
+
+									});
+								}
+							}
+						})
+						mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+					}, 1000);
+				}
+				var count = 0;
+				/**
+				 * 上拉加载具体业务实现
+				 */
+				function pullupRefresh() {
+					setTimeout(function() {
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+							pageIndex++;
+							GetAttendanceList('', new Date().toLocaleDateString() - 7, new Date().toLocaleDateString(), false, pageSize, pageIndex, 'EnrollNumber', 'desc', function(xhrdata) {
+
+								if(xhrdata.length !== 0) {
+									Vue.nextTick(function() {
+										attendanceList.attendancelist = attendanceList.attendancelist.concat(xhrdata.Data);
+
+									});
+								}
+							})
+					}, 1000);
+			}
+
+			mui.plusReady(function() {
+			//查看考勤
+			attendanceList = new Vue({
+				el: "#attendanceList",
+				data: {
+					attendancelist: []
+				},
+				mounted: function() {
+					this.loadList();
+				},
+				methods: {
+					//load data initial
+					loadList: function() {
+						var _this = this;
+						GetAttendanceList('', new Date().toLocaleDateString() - 7, new Date().toLocaleDateString(), false, pageSize, pageIndex, 'EnrollNumber', 'desc', function(xhrdata) {
+
+							if(xhrdata.Data.length !== 0) {
+								_this.$nextTick(function() {
+									_this.attendancelist = _this.attendancelist.concat(xhrdata.Data);
+								})
+
+							}
+						})
+					}
+				}
+			});
+			})
+		</script>
+	</body>
+
+</html>

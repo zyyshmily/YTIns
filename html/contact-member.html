@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>最新通知</title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			/** icons font-face **/    
+@font-face {
+  font-family: 'iconfont';  /* project id 235786 */
+  src: url('http://at.alicdn.com/t/font_235786_68d7kkzkf8figgb9.eot');
+  src: url('http://at.alicdn.com/t/font_235786_68d7kkzkf8figgb9.eot?#iefix') format('embedded-opentype'),
+  url('http://at.alicdn.com/t/font_235786_68d7kkzkf8figgb9.woff') format('woff'),
+  url('http://at.alicdn.com/t/font_235786_68d7kkzkf8figgb9.ttf') format('truetype'),
+  url('http://at.alicdn.com/t/font_235786_68d7kkzkf8figgb9.svg#iconfont') format('svg');
+}
+.iconfont{
+	font-family:"iconfont";
+	font-size:24px;
+	font-style:normal;
+	}
+
+
+
+			.mui-table-view {
+				margin-top: 20px;
+			}
+			
+			
+/**** usercenter ****/
+
+.user-top{
+  background-color: #fff;
+  box-shadow: 2px 3px 10px 0 #eee;
+  margin-top: 10px;
+}
+
+.user-top .user-img{
+  text-align: center;
+  padding: 20px;
+  overflow: hidden;
+}
+.user-top .user-img img{
+  width: 70px;
+  height: 70px;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 1px #ddd solid;
+  box-shadow: 2px 3px 10px 0 #eee;
+  float: left;
+  margin-right: 10px;
+}
+.user-top .user-info{
+  color: #333;
+  margin:15px;
+  float: left;
+  text-align: left;
+  font-size:16px;
+  font-weight:bold;
+}
+
+.user-contact{
+  background-color: #fff;
+  width: 100%;
+  border-top: 1px solid #eee;
+  padding: 0;
+  margin: 0;
+  margin-top: 10px;
+}
+.user-contact li{
+  clear: both;
+  padding: 5px 20px;
+  margin: 0;
+  line-height: 2;
+  border-bottom: 1px solid #eee;
+  overflow: hidden;
+}
+
+    .user-contact li a {
+    display:inline-block;
+    float:right;
+    width:70%;
+    }
+
+.user-contact li i{
+  float: left;
+  width: 20px;
+  height: 20px;
+  line-height: 40px;
+  color: #ff5969;
+  font-size:1.5em;
+  margin-right: 15px;
+}
+.contact-label{
+  float: left;
+  color: #333;
+}
+.contact-value{
+  float: right;
+  color: #666;
+}
+		</style>
+	</head>
+	
+
+	<body>
+		<div id="member">
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">联系人</h1>
+		    
+		</header>
+	<div class="mui-content">
+    
+        <div class="user-top">
+          <div class="user-img">
+        <img src="./img/yuan.jpg" />
+            <div class="user-info"><span class="realName" id='contact-name'></span><br /><span class="departmentName" id='contact-department'></span></div>
+          </div>
+        </div>
+            <div class="content" id="userInfo">
+              <ul class="user-contact">
+                <li><i class="iconfont">&#xe671;</i><span class="contact-label">手机</span><a><span class="contact-value" id='contact-mobile'></span></a></li>
+                <li><i class="iconfont">&#xe683;</i><span class="contact-label">座机</span><a><span class="contact-value" id='contact-tel'></span></a></li>
+                <li><i class="iconfont">&#xe65f;</i><span class="contact-label">QQ</span><a><span class="contact-value" id='contact-oicq'></span></a></li>
+                <!--<li><i class="iconfont">&#xe61b;</i><span class="contact-label">Email</span><a><span class="contact-value"></span></a></li>-->
+              </ul>
+            </div>
+       
+
+		
+
+	</div>
+			
+			
+	</div>
+<script src="../js/mui.min.js"></script>
+		<script src="../js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/adtooa.js" type="text/javascript" charset="utf-8"></script>		
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+
+		<script type="text/javascript">
+			mui.init({
+				
+			});
+			
+			mui.plusReady(function(){
+				var self = plus.webview.currentWebview();
+				var contactName = document.getElementById('contact-name');
+				var contactDepartment = document.getElementById('contact-department');
+				var contactTel = document.getElementById('contact-tel');
+				var contactMobile = document.getElementById('contact-mobile');
+				var contactOicq = document.getElementById('contact-oicq');
+				if(self.Name) {contactName.innerHTML=self.Name;}
+				if(self.Department) {contactDepartment.innerText=self.Department;}
+				if(self.Tel) {contactTel.innerText=self.Tel;contactTel.parentNode.href='tel:'+self.Tel;}
+				if(self.Mobile) {contactMobile.innerText=self.Mobile;contactMobile.parentNode.href='tel:'+self.Mobile;}
+				if(self.Oicq) {contactOicq.innerText=self.Oicq;contactOicq.parentNode.href='mqqwpa://im/chat?chat_type=wpa&uin='+self.Oicq;}
+			})
+			
+			
+			
+			
+			
+		</script>
+	</body>
+
+</html>

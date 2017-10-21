@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>申请单</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/adtooa.css" />
+		<style>
+			.icon-wrapper {
+				width: 40px;
+				height: 40px;
+				margin: 0;
+				border-radius: 50%;
+				text-align: center;
+				vertical-align: middle;
+			}
+			
+			.icon-wrapper i {
+				color: #fff;
+				line-height: 1.7;
+			}
+			
+			.mui-pull-top-pocket {
+				top: 130px;
+			}
+			
+			.nodata {
+				display: none;
+				position: absolute;
+				top: 15%;
+				left: 0;
+				width: 100%;
+				color: #cdcdcd;
+				text-align: center;
+				font-size: 1.2em;
+				z-index: 100;
+			}
+			
+			.nodata i.iconfont {
+				display: block;
+				font-size: 300%;
+				line-height: 1;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div id="task">
+
+			<!-- main -->
+			<main>
+
+				<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view" id="taskTodo" v-if="tasktodo">
+							<li class="mui-table-view-cell mui-media" v-for="item in tasktodo">
+								<a :href="'http://moa3.adtogroup.com/WorkFlowRun/Index?flowid=' + item.id + '&amp;stepid=' + item.StepID + '&amp;instanceid=' + item.InstanceID + '&amp;taskid=' + item.TaskID + '&amp;groupid=' + item.GroupID + '&amp;display=1'">
+									<div class="icon-wrapper mui-media-object mui-pull-left"><i class="iconfont"></i></div>
+										<div class="mui-media-body">
+											<span v-text="item.WorkFlowTitle"></span><span class="fr" v-text="item.SenderName?'发送人：'+item.SenderName:''"></span>
+											<div>
+												<p class="mui-ellipsis list-content fl" v-text="item.TaskTitle"></p><span class="fr" v-text="item.ReceiveTime"></span></div>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="nodata"><i class="iconfont">&#xe6cc;</i>没有数据</div>
+				</div>
+
+			</main>
+
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/adtooa.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var taskTodo;
+			mui.init({
+				swipeBack: false,
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					pageIndex = 1;
+					requestData(app.apihost+"/api/Workflow/GetSendTask", pageIndex, pageSize, function(xhrdata) {
+
+						if(xhrdata.length !== 0) {
+							if(JSON.stringify(taskTodo.tasktodo) == JSON.stringify(xhrdata)) {
+								return;
+							} else {
+								Vue.nextTick(function() {
+									document.querySelector('.nodata').style.display = 'none';
+									taskTodo.tasktodo = taskTodo.tasktodo.concat(xhrdata);
+									mui('#pullrefresh').pullRefresh().enablePullupToRefresh();
+									Vue.nextTick(function() {
+										switchIcon("#taskTodo");
+									});
+								});
+							}
+						}
+					})
+
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				}, 1000);
+			}
+			var count = 0;
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+					pageIndex++;
+					requestData(app.apihost+"/api/Workflow/GetSendTask", pageIndex, pageSize, function(xhrdata) {
+
+						if(xhrdata.length !== 0) {
+							Vue.nextTick(function() {
+								taskTodo.tasktodo = taskTodo.tasktodo.concat(xhrdata);
+								Vue.nextTick(function() {
+									switchIcon("#taskTodo");
+								});
+							});
+						}
+					})
+
+				}, 1000);
+			}
+
+			mui.plusReady(function() {
+			//申请单
+			taskTodo = new Vue({
+				el: "#taskTodo",
+				data: {
+					tasktodo: []
+				},
+				mounted: function() {
+					this.loadList();
+				},
+				methods: {
+					//load data initial
+					loadList: function() {
+						var _this = this;
+						requestData(app.apihost+"/api/Workflow/GetSendTask", pageIndex, pageSize, function(xhrdata) {
+
+							if(xhrdata.length !== 0) {
+
+								_this.$nextTick(function() {
+									_this.tasktodo = _this.tasktodo.concat(xhrdata);
+
+									_this.$nextTick(function() {
+
+										switchIcon("#taskTodo");
+									});
+								});
+							} else {
+								document.querySelector('.nodata').style.display = 'block';
+								plus.nativeUI.toast('没有数据');
+								mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
+							}
+						})
+					}
+				}
+			});
+
+			mui('.mui-table-view').on('tap', 'a', function() {
+				var pageurl = this.getAttribute('href');
+				mui.openWindow({
+					url: pageurl,
+					id: pageurl,
+					creatNew: false
+				})
+			});
+			});
+
+		</script>
+	</body>
+
+</html>

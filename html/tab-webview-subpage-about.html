@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>元拓集团OA系统</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.title {
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			
+			@font-face {
+				font-family: 'iconfont';
+				/* project id 235786 */
+				src: url('http://at.alicdn.com/t/font_235786_68d7kkzkf8figgb9.eot');
+				src: url('http://at.alicdn.com/t/font_235786_68d7kkzkf8figgb9.eot?#iefix') format('embedded-opentype'), url('http://at.alicdn.com/t/font_235786_68d7kkzkf8figgb9.woff') format('woff'), url('http://at.alicdn.com/t/font_235786_68d7kkzkf8figgb9.ttf') format('truetype'), url('http://at.alicdn.com/t/font_235786_68d7kkzkf8figgb9.svg#iconfont') format('svg');
+			}
+			
+			.iconfont {
+				font-family: "iconfont";
+				font-size: inherit;
+				font-style: normal;
+				color: #fff;
+				line-height: 1.7;
+			}
+			
+			.icon-wrapper {
+				width: 3em;
+				height: 3em;
+				margin: 0 auto;
+				border-radius: 50%;
+			}
+			
+			.mui-grid-9 li:nth-child(1) .icon-wrapper {
+				background-color: rgba(255, 226, 59, 0.8);
+			}
+			
+			.mui-grid-9 li:nth-child(2) .icon-wrapper {
+				background-color: rgba(80, 191, 255, 0.8);
+			}
+			
+			.mui-grid-9 li:nth-child(3) .icon-wrapper {
+				background-color: rgba(197, 115, 232, 0.7);
+			}
+			
+			.mui-grid-9 li:nth-child(4) .icon-wrapper {
+				background-color: rgba(255, 105, 210, 0.8);
+			}
+			
+			.mui-grid-9 li:nth-child(5) .icon-wrapper {
+				background-color: rgba(255, 160, 22, 0.7);
+			}
+			
+			.mui-grid-9 li:nth-child(6) .icon-wrapper {
+				background-color: rgba(70, 219, 227, 0.8);
+			}
+			
+			.mui-grid-9 li:nth-child(7) .icon-wrapper {
+				background-color: rgba(255, 0, 0, 0.6);
+			}
+			
+			.mui-grid-9 li:nth-child(8) .icon-wrapper {
+				background-color: rgba(56, 173, 255, 0.8);
+			}
+			/*重置mui样式*/
+			
+			.mui-grid-view.mui-grid-9 .mui-media .mui-icon {
+				font-size: 1.7em;
+				position: relative;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				padding: 0;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				background-color: #fff;
+				border-right: 1px solid #f8f8f8;
+				border-bottom: 1px solid #f8f8f8;
+			}
+			
+			.news {
+				margin-top: 7px;
+			}
+			
+			.news-title {
+				color: #EE1029;
+				font-weight: bold;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				padding: 0;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				background-color: #fff;
+				border-right: 1px solid #f8f8f8;
+				border-bottom: 1px solid #f8f8f8;
+			}
+			
+			.mui-grid-9 a>img {
+				width: 45%;
+			}
+			
+			.app-table {
+				color: #EE1029;
+				font-weight: bold;
+				margin-top: 10px;
+			}
+			
+			.mui-table-view-cell.app-table:after {
+				display: none;
+			}
+			
+			.mui-slider {
+				margin-top: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">首页</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-slider">
+				<div class="mui-slider-group">
+					<!--第一个内容区容器-->
+					<div class="mui-slider-item">
+						<!-- 具体内容 -->
+						<img src="img/1.jpg" />
+					</div>
+					<!--第二个内容区-->
+					<div class="mui-slider-item">
+						<!-- 具体内容 -->
+						<img src="img/4.jpg" />
+					</div>
+				</div>
+			</div>
+
+			<ul class="mui-table-view mui-grid-view mui-grid-9">
+				<li id="taskpage" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+					<a href="task.html">
+						<div class="icon-wrapper"><i class="mui-icon iconfont">&#xe631;<span class="mui-badge mui-badge-red" id="taskNum" v-if="tasknum" v-html="tasknum"></span></i></div>
+						<div class="mui-media-body">待办</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+					<a href="taskdone.html">
+						<div class="icon-wrapper"><i class="mui-icon iconfont">&#xe682;</i></div>
+						<div class="mui-media-body">已办</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+					<a href="application.html">
+						<div class="icon-wrapper"><i class="mui-icon iconfont">&#xe630;</i></div>
+						<div class="mui-media-body">申请单</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+					<a href="attendance.html">
+						<div class="icon-wrapper"><i class="mui-icon iconfont">&#xe691;</i></div>
+						<div class="mui-media-body">今日考勤</div>
+					</a>
+				</li>
+			</ul>
+
+			<div class="mui-table-view">
+				<div class="mui-table-view-cell app-table">
+					申请单
+				</div>
+				<ul class="mui-table-view mui-grid-view mui-grid-9" id="applicationNew">
+					<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" v-for="item in applicationnew" v-if="item.appurltext">
+						<a :href="item.appurltext" :data-flowid="item.id" :data-appid="item.schemecode">
+						<img :src=" './img/workFlowImg/'+item.id+ '.jpg' " />
+    	        <div class="mui-media-body " v-text="item.schemetitle "></div>
+    	    </a>
+    	</li>
+    	   </ul>
+		</div>
+			
+		<div class="mui-table-view news">
+		        <div class="mui-table-view-cell news-title">
+		            <a class="mui-navigate-right" href="announcement.html">
+		                最新通知
+		            </a>
+		        </div>
+		            <ul class="mui-table-view" id="indexNews">
+				    <li class="mui-table-view-cell mui-media"  v-for="(item,index) in announcementlist " v-if="index<3 ">
+				        <a :href="'information.html?ID='+item.NewsId ">
+				            <div class="mui-media-body "><span v-text='item.FullHead'></span>
+				               
+				                <p class="mui-ellipsis " v-text='item.ReleaseTime'></p>
+				            </div>
+				        </a>
+				    </li>
+				</ul>
+		            
+		            
+		        <div class="mui-table-view-cell news-title">
+		            <a class="mui-navigate-right " href='price.html'>
+		                 价格行情
+		            </a>
+		        </div>
+		            <ul class="mui-table-view " id="indexPrice">
+				    <li class="mui-table-view-cell mui-media"  v-for="(item,index) in pricelist" v-if="index<3 ">
+				        <a :href=" 'information.html?ID='+item.NewsId">
+				            <div class="mui-media-body">
+				                <span v-text='item.FullHead'></span>
+				                <p class="mui-ellipsis " v-text='item.ReleaseTime'></p>
+				            </div>
+				        </a>
+				    </li>
+				</ul>
+		    </div>
+			
+			
+			
+			
+		</div>
+	</body>
+	<script src="../js/mui.min.js "></script>
+	<script src="../js/app.js "></script>
+	<script src="../js/jquery-3.1.1.min.js "></script>
+	<script src="../js/adtooa.js "></script>
+	<script src="../js/vue.js "></script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		
+		console.log('内页初始化');
+		
+		mui.plusReady(function(){
+			
+			  //待办任务
+		    var taskNum = new Vue({
+		        el: "#taskNum",
+		        data: {
+		            tasknum: 0
+		        },
+		        mounted: function(){
+		          this.loadList();
+		        },
+		        methods: {
+		            //load data initial
+		            loadList: function () {	
+		                var _this = this;
+		                requestDataGet(app.apihost+"/api/Workflow/GetTodoTaskCount", pageIndex, pageSize, function (xhrdata) {
+		                    _this.$nextTick(function(){
+		                    	_this.tasknum = xhrdata;
+		                    });
+		                    
+		                })
+		            }
+		        }
+		    });
+		    
+		    
+		    //新建申请
+		    var applicationNew = new Vue({
+		        el: "#applicationNew",
+		        data: {
+		            applicationnew: []
+		        },
+		        mounted: function () {
+		            this.loadList();
+		        },
+		        methods: {
+		            //load data initial
+		            loadList: function () {
+		                var _this = this;
+		                GetFlowTaskList(app.apihost+"/api/Workflow/GetFlowTaskList", '', '', pageIndex, pageSize, function (xhrdata) {
+		                	//console.log(JSON.stringify(xhrdata));
+		                	_this.$nextTick(function(){
+		                    	_this.applicationnew = _this.applicationnew.concat(xhrdata);
+		                    });
+		                    
+		                    })
+		            }
+		        }
+		    });
+		    
+		    
+		    //公告通知
+    
+		    var announcementList = new Vue({
+		        el: "#indexNews",
+		        data: {
+		            announcementlist: []
+		        },
+		        mounted: function () {
+		            this.loadList();
+		        },
+		        methods: {
+		            //load data initial
+		            loadList: function () {
+		                var _this = this;
+		                GetInfoList(app.apihost+'/api/PubInfo/GetInfoList', '', false, pageSize, pageIndex, 'CreateDate', 'desc', function (xhrdata)  {
+		
+		                    if (xhrdata.length !== 0) {
+		                    	_this.$nextTick(function(){
+		                    	_this.announcementlist = _this.announcementlist.concat(xhrdata.Data);
+		                    });
+		                        
+		                    }                 
+		
+		                })
+		            }
+		        }
+		    });
+				
+				
+				
+			//价格行情
+		    var priceList = new Vue({
+		        el: "#indexPrice",
+		        data: {
+		            pricelist: []
+		        },
+		        mounted: function () {
+		            this.loadList();
+		        },
+		        methods: {
+		            //load data initial
+		            loadList: function () {
+		                var _this = this;
+		                GetInfoList(app.apihost+'/api/PubInfo/GetNewsList', '', false, pageSize, pageIndex, 'CreateDate', 'desc', function (xhrdata) {
+		
+		                    if (xhrdata.Data.length !== 0) {
+		                    	_this.$nextTick(function(){
+		                    	_this.pricelist = _this.pricelist.concat(xhrdata.Data);
+		                    });
+		                        
+		                    }
+		                })
+		            }
+		        }
+		    });
+						
+			mui('.mui-table-view').on('tap','a',function(){
+				var pageurl = this.getAttribute('href');
+				var flowid = this.getAttribute('data-flowid');
+				var appid = this.getAttribute('data-appid');
+				if(flowid != undefined){
+					mui.openWindow({
+					url:pageurl,
+					id:pageurl,
+					creatNew:false,
+					extras:{
+						flowid:flowid,
+						appid:appid
+					}
+					});
+				}else{
+					mui.openWindow({
+						url:pageurl,
+						id:pageurl,
+						creatNew:false
+					});
+				}
+			});	
+				
+
+			
+			
+			
+		});
+
+
+
+	</script>
+</html>

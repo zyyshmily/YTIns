@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>首页</title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="js/app.js"></script>
+		<script src="js/adtooa.js"></script>
+		<script type="text/javascript">
+			var subpage_style = {
+					top: '0px',
+					bottom: '51px'
+				},
+				subpages = [
+					'html/tab-webview-subpage-about.html',
+					'html/tab-webview-subpage-chat.html',
+					'html/tab-webview-subpage-contact.html',
+					'html/tab-webview-subpage-usercenter.html'
+				],
+				aniShow = {};
+
+			/**
+			 * 简单封装了绘制原生view控件的方法
+			 * 绘制内容支持font（文本，字体图标）,图片img , 矩形区域rect
+			 * 
+			 */
+			function drawNative(id, styles, tags) {
+				var view = new plus.nativeObj.View(id, styles, tags);
+				return view
+			}
+
+			mui.plusReady(function() {
+				plus.screen.lockOrientation("portrait-primary");
+				var settings = app.getSettings();
+				var state = app.getState();
+				//state = {};
+				//检查 "登录状态/锁屏状态" 开始
+				if(state.token && settings.gestures) {
+					mui.openWindow({
+						url: 'unlock.html',
+						id: 'unlock',
+						show: {
+							aniShow: 'pop-in'
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				} else if(state.token) {
+					
+
+				}else{
+					mui.openWindow({
+						url: 'login.html',
+						id: 'login',
+						show: {
+							aniShow: 'pop-in'
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				}
+				// close splash
+				setTimeout(function() {
+					//关闭 splash
+					plus.navigator.closeSplashscreen();
+				}, 600);
+
+
+
+				var self = plus.webview.currentWebview();
+				var nviews = self.getSubNViews();
+				var	active_color = '#007aff';
+				var	normal_color = '#000';
+				var	leftPos = Math.ceil((window.innerWidth - 60) / 2);
+				//console.log(nviews.length);
+				
+				//创建子webview窗口 并初始化
+				for(var i = 0; i < 4; i++) {
+					var temp = {};
+					if(!plus.webview.getWebviewById(subpages[i])) {
+						console.log(subpages[i]);
+						var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
+						if(i > 0) {
+							sub.hide();
+						} else {
+							temp[subpages[i]] = "true";
+							mui.extend(aniShow, temp);
+							toggleNview(self.getStyle().subNViews[0], 0);
+						}
+						// append到当前父webview
+						self.append(sub);
+					}
+				}
+				var activePage = plus.webview.getWebviewById(subpages[0]);
+				
+				//给每个view 添加监听点击切换
+				for(var i = 0; i < 5; i++) {
+					nviews[i].addEventListener('click', clickEvent, false);
+				}
+
+				// 自定义 tab 点击事件
+				function clickEvent(e) {
+					var currId = e.target.id;
+					var	currIndex = parseInt(currId.substr(currId.length - 1, 1) - 1);
+					var	currView = self.getStyle().subNViews[currIndex];
+					console.log(currIndex);
+					targetPage = plus.webview.getWebviewById(subpages[currIndex]);
+
+					if(targetPage == activePage) {
+						return;
+					}
+
+					if(currIndex !== 4) {
+						//若为iOS平台或非首次显示，则直接显示
+						if(mui.os.ios || aniShow[targetPage]) {
+							plus.webview.show(targetPage);
+						} else {
+							//否则，使用fade-in动画，且保存变量
+							var temp = {};
+							temp[targetPage] = "true";
+							mui.extend(aniShow, temp);
+							plus.webview.show(targetPage, "fade-in", 300);
+						}
+						//隐藏当前;
+						plus.webview.hide(activePage);
+						//更改当前活跃的页面
+						activePage = targetPage;
+						//底部选项卡切换
+						toggleNview(currView, currIndex);
+					} 
+					/*else {
+						//第四个tab 打开新窗口
+						
+						if(!plus.webview.getWebviewById('setting')) {
+							var newWV = plus.webview.create('setting.html', 'setting');
+							newWV.show('slide-in-right', 200);
+						}else{
+							console.log('显示');
+							plus.webview.show('setting','slide-in-right', 200);
+						}
+
+					}*/
+				}
+
+				//更改颜色
+				function changeColor(obj, color) {
+					obj.color = color;
+					return obj
+				}
+
+				function toggleNview(currObj, currIndex) {
+					// 重绘当前nview
+					self.updateSubNViews([{
+						id: currObj.id,
+						tags: [{
+							tag: 'font', //currObj.tag
+							id: currObj.id + 1,
+							position: currObj.tags[0].position,
+							text: currObj.tags[0].text,
+							textStyles: changeColor(currObj.tags[0].textStyles, active_color)
+						}, {
+							tag: 'font',
+							id: currObj.id + 2,
+							position: currObj.tags[1].position,
+							text: currObj.tags[1].text,
+							textStyles: changeColor(currObj.tags[1].textStyles, active_color)
+						}]
+					}])
+
+					// 重绘兄弟nview
+					for(var i = 0; i < 4; i++) {
+						var viewObj = self.getStyle().subNViews[i];
+
+						if(i !== currIndex) {
+							updateSubNView(viewObj);
+						}
+					}
+				};
+
+				function updateSubNView(obj) {
+					self.updateSubNViews([{
+						id: obj.id,
+						tags: [{
+							tag: 'font', //obj.tag
+							id: obj.id + 1,
+							position: obj.tags[0].position,
+							text: obj.tags[0].text,
+							textStyles: changeColor(obj.tags[0].textStyles, normal_color)
+						}, {
+							tag: 'font',
+							id: obj.id + 2,
+							position: obj.tags[1].position,
+							text: obj.tags[1].text,
+							textStyles: changeColor(obj.tags[1].textStyles, normal_color)
+						}]
+					}])
+				}
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>通讯录</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/adtooa.css" />
+		<style>
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				padding: 0;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				background-color: #fff;
+				border-right: 1px solid #f8f8f8;
+				border-bottom: 1px solid #f8f8f8;
+			}
+			
+			.mui-grid-9 a>img {
+				width: 50%;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div id="contact">
+
+			<!-- main -->
+			<main>
+
+				<ul class="mui-table-view mui-grid-view mui-grid-9" id="applicationNew">
+					<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" v-for="item in applicationnew">
+						<a :href="'http://moa3.adtogroup.com/WorkFlowRun/Index?flowid='+item.id+'&amp;AppID='+item.schemecode">
+							<img :src="'./img/workFlowImg/'+item.id+'.jpg'" />
+							<div class="mui-media-body">{{item.schemetitle}}</div>
+						</a>
+					</li>
+				</ul>
+			</main>
+
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/adtooa.js" type="text/javascript" charset="utf-8"></script>
+
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: false
+			});
+
+			mui.plusReady(function() {
+
+				//新建申请
+				var applicationNew = new Vue({
+					el: "#applicationNew",
+					data: {
+						applicationnew: []
+					},
+					mounted: function() {
+						this.loadList();
+					},
+					methods: {
+						//load data initial
+						loadList: function() {
+							var _this = this;
+							GetFlowTaskList(app.apihost+"/api/Workflow/GetFlowTaskList", '', '', pageIndex, pageSize, function(xhrdata) {
+								_this.applicationnew = _this.applicationnew.concat(xhrdata);
+							})
+						}
+					}
+				});
+				mui('.mui-table-view').on('tap', 'a', function() {
+					var pageurl = this.getAttribute('href');
+					mui.openWindow({
+						url: pageurl,
+						id: pageurl,
+						creatNew: false
+					})
+				})
+			})
+		</script>
+	</body>
+
+</html>

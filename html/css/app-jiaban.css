@@ -1,0 +1,219 @@
+html,
+body {
+	background-color: #efeff4;
+}
+
+p {
+	text-indent: 22px;
+}
+
+span.mui-icon {
+	font-size: 14px;
+	color: #007aff;
+	margin-left: -15px;
+	padding-right: 10px;
+}
+
+.mui-off-canvas-right {
+	color: #fff;
+}
+
+.title {
+	margin: 15px 15px 10px;
+}
+
+.title+.content {
+	margin: 10px 15px 35px;
+	color: #bbb;
+	text-indent: 1em;
+	font-size: 14px;
+	line-height: 24px;
+}
+
+input {
+	color: #000;
+}
+
+.area {
+	margin: 20px auto 0px auto;
+}
+
+.mui-input-group {
+	margin-top: 10px;
+}
+
+.mui-input-group:first-child {
+	margin-top: 20px;
+}
+
+.flow label,
+.mui-input-group label {
+	width: 30%;
+}
+
+.mui-input-row label~input,
+.mui-input-row label~select,
+.mui-input-row label~textarea {
+	width: 69%;
+}
+
+.mui-checkbox input[type=checkbox],
+.mui-radio input[type=radio] {
+	top: 6px;
+}
+
+.mui-content-padded {
+	margin-top: 25px;
+}
+
+#app-form .mui-input-row {
+	height: auto;
+}
+
+.mui-input-row .mui-btn {
+	line-height: 1.1;
+	float: right;
+	width: 69%;
+	text-align: left;
+	border: none;
+	padding: 0;
+	padding-top: 10px;
+}
+
+.ui-alert {
+	text-align: center;
+	padding: 20px 10px;
+	font-size: 16px;
+}
+
+* {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+}
+
+.flow span {
+	display: inline-block;
+	padding: 11px 15px;
+}
+
+.flowwork {
+	margin-top: 10px;
+	position: relative;
+	padding: 0;
+	border: 0;
+	background-color: #fff;
+}
+
+.flowwork:before {
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	height: 1px;
+	content: '';
+	-webkit-transform: scaleY(.5);
+	transform: scaleY(.5);
+	background-color: #c8c7cc;
+}
+
+.flowwork:after {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	height: 1px;
+	content: '';
+	-webkit-transform: scaleY(.5);
+	transform: scaleY(.5);
+	background-color: #c8c7cc;
+}
+
+.flowwork-title {
+	font-family: 'Helvetica Neue', Helvetica, sans-serif;
+	line-height: 1.1;
+	float: left;
+	padding: 11px 15px;
+	font-weight: bold;
+}
+
+.flow-select {
+	position: absolute;
+	top: 7px;
+	right: 15px;
+	width: 30px;
+	text-align: center;
+	vertical-align: middle;
+	font-weight: bold;
+}
+
+input:disabled {
+	color: #999;
+}
+
+.mui-picker-oa:first-child .mui-pciker-list li {
+	text-align: left;
+}
+
+.mui-picker-oa:last-child .mui-pciker-list li {
+	text-align: right;
+}
+
+.auditBtnBox {}
+
+.auditBtnBox button {
+	width: 46%;
+	font-size: 18px;
+	margin-bottom: 10px;
+	padding: 15px 0;
+	margin-right: 10px;
+}
+
+.mui-bar-nav~.mui-content {
+	padding-top: 44px;
+	overflow: auto;
+	height: 100%;
+}
+
+.offCanvasBtn {
+	margin: 30px;
+}
+
+.mui-off-canvas-right {
+	background-color: #f5f5f5;
+	color: #333;
+}
+
+.progressTitle {
+	font-weight: bold;
+}
+
+.progressMessage {
+	color: #007aff;
+}
+
+.progressTitle,
+.progressMessage {
+	line-height: 1.6;
+	font-size: 90%;
+}
+
+.progressMessage span {
+	float: right;
+	font-size: 90%;
+	color: #000;
+}
+
+#submitButton,
+#auditWrapper,
+#flowWorkSubmit,
+#finishWrapper {
+	display: none;
+}
+
+.progressClose {
+	float: right;
+	background-color: #007aff;
+	border-radius: 3px;
+	color: #FFF;
+	margin: 10px 10px 0 0;
+}

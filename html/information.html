@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>最新通知</title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			/**** notice ****/
+			
+			.notice {
+				background-color: #fff;
+				padding: 1em 1em;
+				font-size: 100%;
+			}
+			
+			.notice .mui-media-body p {
+				font-size: 90%;
+				line-height: 2;
+			}
+			
+			.notice-time span {
+				margin-right: .2rem;
+			}
+			
+			.notice-content {
+				border-top: 1px dashed #ccc;
+				border-bottom: 1px dashed #ccc;
+				line-height: 2;
+			}
+			.notice-content img{
+				width: 98% !important;
+				margin: 0 auto;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="information">
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title">{{information.FullHead}}</h1>
+
+			</header>
+
+			<div class="mui-content">
+				<div class="notice">
+					<div class="mui-media-body">{{information.FullHead}}
+						<p><span>{{information.ModifyDate}}</span><span>来源：{{information.ModifyUserName}}</span></p>
+					</div>
+
+					<div class="notice-content" v-html="information.NewsContent"></div>
+
+				</div>
+			</div>
+
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/adtooa.js" type="text/javascript" charset="utf-8"></script>
+
+		<script type="text/javascript">
+			mui.init({
+
+			});
+			mui.plusReady(function() {
+				var id = window.location.search.split('=')[1];
+				var information = new Vue({
+					el: "#information",
+					data: {
+						information: {}
+					},
+					mounted: function() {
+						this.loadList();
+					},
+					methods: {
+						//load data initial
+						loadList: function() {
+							var _this = this;
+							requestDataGet(app.apihost+'/api/PubInfo/GetInfoItem?id=' + id, pageIndex, pageSize, function(xhrdata) {
+								if(xhrdata.length !== 0) {
+									_this.$nextTick(function() {
+										_this.information = xhrdata;
+									});
+								}
+							})
+						}
+					}
+				});
+			})
+		</script>
+	</body>
+
+</html>

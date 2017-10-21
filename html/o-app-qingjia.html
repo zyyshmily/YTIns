@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>请假申请单</title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/mui.picker.min.css" rel="stylesheet" />
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			p {
+				text-indent: 22px;
+			}
+			
+			span.mui-icon {
+				font-size: 14px;
+				color: #007aff;
+				margin-left: -15px;
+				padding-right: 10px;
+			}
+			
+			.mui-off-canvas-right {
+				color: #fff;
+			}
+			
+			.title {
+				margin: 15px 15px 10px;
+			}
+			
+			.title+.content {
+				margin: 10px 15px 35px;
+				color: #bbb;
+				text-indent: 1em;
+				font-size: 14px;
+				line-height: 24px;
+			}
+			
+			input {
+				color: #000;
+			}
+			
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			
+			.mui-input-group {
+				margin-top: 10px;
+			}
+			
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			
+			.flow label,
+			.mui-input-group label {
+				width: 30%;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 69%;
+			}
+			
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 6px;
+			}
+			
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			
+			#app-form .mui-input-row {
+				height: auto;
+			}
+			
+			.mui-input-row .mui-btn {
+				line-height: 1.1;
+				float: right;
+				width: 69%;
+				text-align: left;
+				border: none;
+				padding: 0;
+				padding-top: 10px;
+			}
+			
+			.ui-alert {
+				text-align: center;
+				padding: 20px 10px;
+				font-size: 16px;
+			}
+			
+			* {
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+			}
+			
+			.flow span {
+				display: inline-block;
+				padding: 11px 15px;
+			}
+			
+			.flowwork {
+				margin-top: 10px;
+				position: relative;
+				padding: 0;
+				border: 0;
+				background-color: #fff;
+			}
+			
+			.flowwork:before {
+				position: absolute;
+				top: 0;
+				right: 0;
+				left: 0;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc;
+			}
+			
+			.flowwork:after {
+				position: absolute;
+				bottom: 0;
+				right: 0;
+				left: 0;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc;
+			}
+			
+			.flowwork-title {
+				font-family: 'Helvetica Neue', Helvetica, sans-serif;
+				line-height: 1.1;
+				float: left;
+				padding: 11px 15px;
+				font-weight: bold;
+			}
+			
+			.flow-select {
+				position: absolute;
+				top: 7px;
+				right: 15px;
+				width: 30px;
+				text-align: center;
+				vertical-align: middle;
+				font-weight: bold;
+			}
+			
+			input:disabled {
+				color: #999;
+			}
+			
+			.mui-picker-oa:first-child .mui-pciker-list li {
+				text-align: left;
+			}
+			
+			.mui-picker-oa:last-child .mui-pciker-list li {
+				text-align: right;
+			}
+			
+			.auditBtnBox {}
+			
+			.auditBtnBox button {
+				width: 46%;
+				font-size: 18px;
+				margin-bottom: 10px;
+				padding: 15px 0;
+				margin-right: 10px;
+			}
+			
+			.mui-bar-nav~.mui-content {
+				padding-top: 44px;
+				overflow: auto;
+				height: 100%;
+			}
+			
+			.offCanvasBtn {
+				margin: 30px;
+			}
+			
+			.mui-off-canvas-right {
+				background-color: #f5f5f5;
+				color: #333;
+			}
+			
+			.progressTitle {
+				font-weight: bold;
+			}
+			
+			.progressMessage {
+				color: #007aff;
+			}
+			
+			.progressTitle,
+			.progressMessage {
+				line-height: 1.6;
+				font-size: 90%;
+			}
+			
+			.progressMessage span {
+				float: right;
+				font-size: 90%;
+				color: #000;
+			}
+			
+			#submitButton,
+			#auditWrapper,
+			#flowWorkSubmit,
+			#finishWrapper {
+				display: none;
+			}
+			
+			.progressClose {
+				float: right;
+				background-color: #007aff;
+				border-radius: 3px;
+				color: #FFF;
+				margin: 10px 10px 0 0;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--侧滑菜单容器-->
+		<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable">
+			<!--菜单部分-->
+			<aside id="offCanvasSide" class="mui-off-canvas-right">
+				<div id="offCanvasSideScroll" class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<div class="mui-icon mui-icon-closeempty progressClose" id="offCanvasHide"></div>
+						<div class="title" style=" font-weight: bold;">审核流程</div>
+
+						<ul class="mui-table-view" id="auditProgress">
+							<li class="mui-table-view-cell" v-for="audit in progress">
+								<div class="progressTitle">{{audit.StepName}}&nbsp;&nbsp;{{audit.ReceiveName}}</div>
+								<div class="progressMessage">{{audit.Comment?audit.Comment:''}}<span>{{audit.CompletedTime1}}</span>
+								</div>
+							</li>
+
+						</ul>
+
+					</div>
+			</aside>
+
+			<!--主体部分  -->
+			<div class="mui-inner-wrap">
+				<header class="mui-bar mui-bar-nav">
+					<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+					<a id="offCanvasBtn" href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-right"></a>
+					<h1 class="mui-title">请假申请单</h1>
+
+				</header>
+				<div class="mui-content">
+					<form id='app-form' class="mui-input-group">
+						<input type="hidden" name="instanceid" id="instanceid" value="" />
+						<input type="hidden" name="params" id="params" value="" />
+
+						<input type="hidden" id="Form_ValidateAlertType" name="Form_ValidateAlertType" value="1" />
+						<input type="hidden" id="Form_TitleField" name="Form_TitleField" value="Abs.Title" />
+						<input type="hidden" id="Form_DBConnID" name="Form_DBConnID" value="06075250-30dc-4d32-bf97-e922cb30fac8" />
+						<input type="hidden" id="Form_DBTable" name="Form_DBTable" value="Abs" />
+						<input type="hidden" id="Form_DBTablePk" name="Form_DBTablePk" value="ID" />
+						<input type="hidden" id="Form_DBTableTitle" name="Form_DBTableTitle" value="Title" />
+						<input type="hidden" id="Form_AutoSaveData" name="Form_AutoSaveData" value="1" />
+						<input type="hidden" id="Abs.Title" name="Abs.Title" value="请假申请" />
+						<div class="mui-input-row">
+							<label>申请人</label>
+							<input id='Abs.UserName' name="Abs.UserName" type="text" disabled="disabled" class="mui-input-clear mui-input" placeholder="姓名">
+							<input type="hidden" id="Abs.UserID" name="Abs.UserID" value="">
+						</div>
+						<div class="mui-input-row">
+							<label>公司</label>
+							<input id='Abs.CompanyName' name='Abs.CompanyName' type="text" disabled="disabled" class="mui-input-clear mui-input" placeholder="公司">
+							<input type="hidden" id="Abs.CompanyId" name="Abs.CompanyId" value="">
+						</div>
+						<div class="mui-input-row">
+							<label>部门</label>
+							<input id="Abs.DeptName" name="Abs.DeptName" type="text" disabled="disabled" class="mui-input-clear mui-input" placeholder="部门">
+							<input type="hidden" id="Abs.DeptID" name="Abs.DeptID" value="">
+						</div>
+						<div class="mui-input-row">
+							<label>起始时间</label>
+							<button id="Abs.StartDateTime" name="Abs.StartDateTime" disabled="disabled" data-options="{}" type="button" class="btn mui-btn mui-btn-block">选择开始日期时间</button>
+
+						</div>
+						<div class="mui-input-row">
+							<label>结束时间</label>
+							<button id="Abs.EndDateTime" name="Abs.EndDateTime" disabled="disabled" data-options="{}" type="button" class="btn mui-btn mui-btn-block">选择结束日期时间</button>
+						</div>
+						<div class="mui-input-row">
+							<label>申请时间</label>
+							<button id="Abs.CreateDatetime" name="Abs.CreateDatetime" disabled="disabled" data-options="{}" disabled="disabled" type="button" class="btn mui-btn mui-btn-block">默认申请时间</button>
+						</div>
+						<div class="mui-input-row">
+							<label>请假类型</label>
+							<button id="Abs.AsbType_text" name="Abs.AsbType_text" disabled="disabled" class="mui-btn mui-btn-block" type="button">请假类型</button> </div>
+						<input type="hidden" id="Abs.AsbType" name="Abs.AsbType" value="">
+
+						<div class="mui-input-row">
+							<label>请假天数</label>
+							<input id="Abs.Days" name="Abs.Days" type="text" disabled="disabled" class="mui-input-clear mui-input" placeholder="请输入天数">
+						</div>
+						<div class="mui-input-row">
+							<label>请假理由</label>
+							<input id="Abs.Reason" name="Abs.Reason" type="text" disabled="disabled" class="mui-input-clear mui-input" placeholder="请输入原因">
+						</div>
+
+						<div class="mui-input-row" style="display: none;">
+							<textarea id="form_body_div_textarea" name="form_body_div_textarea" style="display:none;"></textarea>
+							<textarea id="form_commentlist_div_textarea" name="form_commentlist_div_textarea" style="display:none;"></textarea>
+
+						</div>
+
+					</form>
+
+					<div class="mui-content-padded" id="submitButton">
+						<button id='selectPersonnel' class="mui-btn mui-btn-blue mui-btn-block">提交</button>
+					</div>
+
+					<!--审核意见-->
+
+					<div id="auditWrapper">
+						<div class="auditBox mui-input-group">
+							<div class="mui-input-row flow">
+								<span></span>
+								<div class="mui-switch mui-active" id="auditSwitch">
+									<div class="mui-switch-handle"></div>
+								</div>
+							</div>
+
+							<div class="mui-input-row flow">
+								<label>审核意见</label>
+								<input id="auditMessage" name="auditMessage" type="text" class="mui-input-clear mui-input" placeholder="请输入审核意见" value='同意'>
+							</div>
+							<input type="hidden" id="" name="" value="">
+
+						</div>
+
+						<div class="mui-content-padded auditBtnBox" id="auditSubmitButton">
+							<button id='sendback' class="mui-btn mui-btn-red">退回</button>
+							<button id='auditselectPersonnel' class="mui-btn mui-btn-blue">发送</button>
+						</div>
+
+					</div>
+
+					<!--选择上级-->
+					<div id="flowWorkSubmit">
+
+						<div class="flowwork">
+							<div class="mui-input-row flowwork-title">
+								请选择处理步骤和人员
+							</div>
+							<div class="mui-input-row flow">
+								<label id="form-leader"></label>
+								<button id="formsubmit" name="formsubmit" class="mui-btn mui-btn-block" type="button"></button>
+								<div class="flow-select mui-icon mui-icon-info" id="triggerSubmit"></div>
+							</div>
+							<input type="hidden" id="" name="" value="">
+
+						</div>
+
+						<div class="mui-content-padded">
+							<button id='sendWorkFlow' class="mui-btn mui-btn-blue mui-btn-block">提交</button>
+						</div>
+
+					</div>
+
+					<!-- 完成  -->
+					<div class="mui-content-padded" id="finishWrapper">
+						<button id='finishFlowWork' class="mui-btn mui-btn-blue mui-btn-block">完成</button>
+					</div>
+
+				</div>
+				<!-- off-canvas backdrop -->
+				<div class="mui-off-canvas-backdrop"></div>
+			</div>
+			</div>
+			<script src="../js/mui.min.js"></script>
+			<script src="../js/mui.picker.min.js"></script>
+			<script src="../js/mui.picker.js"></script>
+			<script src="../js/mui.poppicker.js"></script>
+			<script src="../js/mui.poppicker.oa.js"></script>
+			<script src="../js/mui.enterfocus.js"></script>
+			<script src="../js/app.js"></script>
+			<script src="../js/adtooa.js"></script>
+			<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+			<script>
+				var auditProgress = new Vue({
+					el: '#auditProgress',
+					data: {
+						progress: []
+					}
+				});
+
+				var query = "";
+				var personnel = [];
+				(function($) {
+					$.init({
+						swipeBack: false,
+					});
+					//侧滑容器父节点
+					var offCanvasWrapper = mui('#offCanvasWrapper');
+					//主界面容器
+					var offCanvasInner = offCanvasWrapper[0].querySelector('.mui-inner-wrap');
+					//菜单容器
+					var offCanvasSide = document.getElementById("offCanvasSide");
+					//Android暂不支持整体移动动画
+					/*if (!mui.os.android) {
+						document.getElementById("move-togger").classList.remove('mui-hidden');
+						var spans = document.querySelectorAll('.android-only');
+						for (var i = 0, len = spans.length; i < len; i++) {
+							spans[i].style.display = "none";
+						}
+					}*/
+					//移动效果是否为整体移动
+					var moveTogether = false;
+					//侧滑容器的class列表，增加.mui-slide-in即可实现菜单移动、主界面不动的效果；
+					var classList = offCanvasWrapper[0].classList;
+					//变换侧滑动画移动效果；
+					mui('.mui-input-group').on('change', 'input', function() {
+						if(this.checked) {
+							offCanvasSide.classList.remove('mui-transitioning');
+							offCanvasSide.setAttribute('style', '');
+							classList.remove('mui-slide-in');
+							classList.remove('mui-scalable');
+							switch(this.value) {
+								case 'main-move':
+									if(moveTogether) {
+										//仅主内容滑动时，侧滑菜单在off-canvas-wrap内，和主界面并列
+										offCanvasWrapper[0].insertBefore(offCanvasSide, offCanvasWrapper[0].firstElementChild);
+										moveTogether = false;
+									}
+									break;
+								case 'main-move-scalable':
+									if(moveTogether) {
+										//仅主内容滑动时，侧滑菜单在off-canvas-wrap内，和主界面并列
+										offCanvasWrapper[0].insertBefore(offCanvasSide, offCanvasWrapper[0].firstElementChild);
+									}
+									classList.add('mui-scalable');
+									break;
+								case 'menu-move':
+									classList.add('mui-slide-in');
+									break;
+								case 'all-move':
+									moveTogether = true;
+									//整体滑动时，侧滑菜单在inner-wrap内
+									offCanvasInner.insertBefore(offCanvasSide, offCanvasInner.firstElementChild);
+									break;
+							}
+							offCanvasWrapper.offCanvas().refresh();
+						}
+					});
+					/*document.getElementById('offCanvasShow').addEventListener('tap', function() {
+						offCanvasWrapper.offCanvas('show');
+					});*/
+					document.getElementById('offCanvasHide').addEventListener('tap', function() {
+						offCanvasWrapper.offCanvas('close');
+					});
+					//主界面和侧滑菜单界面均支持区域滚动；
+					mui('#offCanvasSideScroll').scroll();
+					mui('#offCanvasContentScroll').scroll();
+					//实现ios平台的侧滑关闭页面；
+					if(mui.os.plus && mui.os.ios) {
+						offCanvasWrapper[0].addEventListener('shown', function(e) { //菜单显示完成事件
+							plus.webview.currentWebview().setStyle({
+								'popGesture': 'none'
+							});
+						});
+						offCanvasWrapper[0].addEventListener('hidden', function(e) { //菜单关闭完成事件
+							plus.webview.currentWebview().setStyle({
+								'popGesture': 'close'
+							});
+						});
+					}
+					//普通示例
+					var userPicker = new $.PopPicker();
+					userPicker.setData([{
+						value: '160bdfed-d0b5-47a0-be8d-0d0651294f9a',
+						text: '事假'
+					}, {
+						value: 'fa3173bf-133b-416e-b6c0-ff92987fa1c4',
+						text: '病假'
+					}, {
+						value: 'fe014437-fe6f-4d1d-a09f-1bc93dc5eee3',
+						text: '年假'
+					}, {
+						value: '4c524976-a2f5-42fb-8401-9a23c2bfdab9',
+						text: '调休'
+					}, {
+						value: 'bde485b5-44d4-4cd8-ad93-65ac8e2bddc9',
+						text: '婚假'
+					}, {
+						value: '7c5d1a56-bb6d-4ba9-bfb8-214cd1c23c1a',
+						text: '产假'
+					}, {
+						value: '945682ec-15cf-4e14-bdd9-b68285eb5a16',
+						text: '陪产假'
+					}, {
+						value: 'abfb5710-8f9c-4142-ae5c-01d6a78fab42',
+						text: '丧假'
+					}, {
+						value: '24dccfec-62c2-406a-930a-400caa096f1d',
+						text: '其他'
+					}]);
+
+					var showUserPickerButton = document.getElementById('Abs.AsbType_text');
+					showUserPickerButton.innerText = "事假";
+					document.getElementById('Abs.AsbType').value = "160bdfed-d0b5-47a0-be8d-0d0651294f9a";
+
+					showUserPickerButton.addEventListener('tap', function(event) {
+						var _this = this;
+						userPicker.show(function(items) {
+							_this.innerText = items[0].text;
+							document.getElementById('Abs.AsbType').value = items[0].value;
+
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+					//-----------------------------------------
+
+					var btns = $('.btn');
+					btns.each(function(i, btn) {
+						btn.addEventListener('tap', function() {
+							var optionsJson = this.getAttribute('data-options') || '{}';
+							var options = JSON.parse(optionsJson);
+							var id = this.getAttribute('id');
+							/*
+							 * 首次显示时实例化组件
+							 * 示例为了简洁，将 options 放在了按钮的 dom 上
+							 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+							 */
+							var picker = new $.DtPicker(options);
+							var _this = this;
+							picker.show(function(rs) {
+								/*
+								 * rs.value 拼合后的 value
+								 * rs.text 拼合后的 text
+								 * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+								 * rs.m 月，用法同年
+								 * rs.d 日，用法同年
+								 * rs.h 时，用法同年
+								 * rs.i 分（minutes 的第二个字母），用法同年
+								 */
+
+								_this.innerText = rs.text;
+								console.log(rs);
+								/* 
+								 * 返回 false 可以阻止选择框的关闭
+								 * return false;
+								 */
+								/*
+								 * 释放组件资源，释放后将将不能再操作组件
+								 * 通常情况下，不需要示放组件，new DtPicker(options) 后，可以一直使用。
+								 * 当前示例，因为内容较多，如不进行资原释放，在某些设备上会较慢。
+								 * 所以每次用完便立即调用 dispose 进行释放，下次用时再创建新实例。
+								 */
+								picker.dispose();
+							});
+						}, false);
+					});
+
+					//发送按钮
+					var selectPersonnelButton = document.getElementById('selectPersonnel');
+					selectPersonnel.addEventListener('tap', function(event) {
+						var appform = document.getElementById('app-form');
+						var jsonData = serializeJSON(appform);
+
+						if(jsonData["Abs.Days"] == '') {
+							mui.toast("未输入天数");
+							return;
+						}
+						if(jsonData["Abs.Reason"] == '') {
+							mui.toast("未输入理由");
+							return;
+						}
+						if(jsonData["Abs.StartDateTime"] == encodeURIComponent("选择开始日期时间")) {
+							mui.toast("未选择开始时间");
+							return;
+						}
+
+						if(jsonData["Abs.EndDateTime"] == encodeURIComponent("选择结束日期时间")) {
+							mui.toast("未选择结束时间");
+							return;
+						}
+						console.log(JSON.stringify(jsonData));
+
+						var state = app.getState();
+						if(state.token) {
+							var token = state.token;
+							var headers = {};
+							if(token) {
+								headers.Authorization = 'Bearer ' + token;
+							}
+							var postData = {
+								"": JSON.stringify(jsonData)
+							};
+							var vw = plus.webview.currentWebview();
+
+							var instanceid = document.getElementById('instanceid').value;
+							var qs = query + '&instanceid1=' + instanceid + '&iframeid=&openerid=';
+							console.log('qs' + qs);
+							mui.ajax(app.apihost + '/api/WorkFlow/FlowSend?' + qs, {
+								dataType: 'json',
+								data: postData,
+								type: 'post',
+								timeout: 10000,
+								headers: headers,
+								success: function(xhr2) {
+									var params = {};
+									params['type'] = 'submit';
+									params['steps'] = new Array();
+									var step = {};
+									step['id'] = xhr2['Data']['StepID'];
+									step['member'] = xhr2['Data']['DefaultMember'];
+									params['steps'].push(step);
+									document.getElementById('params').value = JSON.stringify(params);
+									document.getElementById('form-leader').innerText = xhr2['Data']['StepName'];
+									document.getElementById('formsubmit').innerText = xhr2['Data']['DefaultMemberText'];
+									document.getElementById('submitButton').style.display = 'none';
+									document.getElementById('flowWorkSubmit').style.display = 'block';
+									console.log('第一次发送按钮返回上级' + JSON.stringify(xhr2));
+								},
+								error: function(xhr, type, errorThrown) {
+									console.log(JSON.stringify(xhr));
+								}
+							});
+
+						}
+
+					}, false);
+
+					//审核发送按钮
+					var auditselectPersonnelButton = document.getElementById('auditselectPersonnel');
+					auditselectPersonnelButton.addEventListener('tap', function(event) {
+						var appform = document.getElementById('app-form');
+						var jsonData = serializeJSON(appform);
+						var state = app.getState();
+						if(state.token) {
+							var token = state.token;
+							var headers = {};
+							if(token) {
+								headers.Authorization = 'Bearer ' + token;
+							}
+							var postData = {
+								"": JSON.stringify(jsonData)
+							};
+							var vw = plus.webview.currentWebview();
+							var instanceid = document.getElementById('instanceid').value;
+							console.log(query);
+							if(instanceid != '' && vw.display == '0') {
+								console.log(query);
+								///var qs = query + '&instanceid1=' + instanceid + '&iframeid=&openerid=';
+								//?flowid=1c973a4b-f065-49d5-81d7-ff409b330e16&stepid=2d1c0de2-3e06-49eb-a93f-fd4b74f1e581&instanceid=cefe1571-7915-4d31-8c80-8bc6ce3308dc&taskid=3451d7db-82f3-44ea-9063-4b85c2f03d11&groupid=3e14d88f-eae2-4d85-94ea-b58f689aaacd&display=0
+
+							} else {
+								var qs = query + '&instanceid1=' + instanceid + '&iframeid=&openerid=';
+							}
+
+							mui.ajax(app.apihost + '/api/WorkFlow/FlowSend?' + qs, {
+								dataType: 'json',
+								data: postData,
+								type: 'post',
+								timeout: 10000,
+								headers: headers,
+								success: function(xhr2) {
+									var params = {};
+									params['type'] = 'submit';
+									params['steps'] = new Array();
+									var step = {};
+									step['id'] = xhr2['Data']['StepID'];
+									step['member'] = xhr2['Data']['DefaultMember'];
+									params['steps'].push(step);
+									document.getElementById('params').value = JSON.stringify(params);
+
+									document.getElementById('form-leader').innerText = xhr2['Data']['StepName'];
+									document.getElementById('formsubmit').innerText = xhr2['Data']['DefaultMemberText'];
+									document.getElementById('auditSubmitButton').style.display = 'none';
+									document.getElementById('flowWorkSubmit').style.display = 'block';
+
+									console.log('审核发送返回上级' + JSON.stringify(xhr2));
+								},
+								error: function(xhr, type, errorThrown) {
+									console.log(JSON.stringify(xhr));
+								}
+							});
+
+						}
+
+					}, false);
+
+					//提交按钮
+					var sendWorkFlow = document.getElementById('sendWorkFlow');
+					sendWorkFlow.addEventListener('tap', function(event) {
+						var appform = document.getElementById('app-form');
+						var jsonData = serializeJSON(appform);
+
+						if(jsonData["Abs.Days"] == '') {
+							mui.toast("未输入天数");
+							return;
+						}
+						if(jsonData["Abs.Reason"] == '') {
+							mui.toast("未输入理由");
+							return;
+						}
+						if(jsonData["Abs.StartDateTime"] == encodeURIComponent("选择开始日期时间")) {
+							mui.toast("未选择开始时间");
+							return;
+						}
+
+						if(jsonData["Abs.EndDateTime"] == encodeURIComponent("选择结束日期时间")) {
+							mui.toast("未选择结束时间");
+							return;
+						}
+
+						var state = app.getState();
+						if(state.token) {
+							var token = state.token;
+							var headers = {};
+							if(token) {
+								headers.Authorization = 'Bearer ' + token;
+							}
+							var postData = {
+								"": JSON.stringify(jsonData)
+							};
+							var vw = plus.webview.currentWebview();
+							var qs = query + '&tabid=&isSystemDetermine=1';
+							mui.ajax(app.apihost + '/api/WorkFlow/FlowExecute?' + qs, {
+								dataType: 'json',
+								data: postData,
+								type: 'post',
+								timeout: 10000,
+								headers: headers,
+								success: function(xhr2) {
+									mui.alert(xhr2['message'], '系统提示', function() {
+
+									});
+									console.log('提交按钮' + JSON.stringify(xhr2));
+								},
+								error: function(xhr, type, errorThrown) {
+									console.log(JSON.stringify(xhr));
+								}
+							});
+
+						}
+
+					}, false);
+
+					//完成按钮
+					var finishFlowWork = document.getElementById('finishFlowWork');
+					finishFlowWork.addEventListener('tap', function(event) {
+						var appform = document.getElementById('app-form');
+						var jsonData = serializeJSON(appform);
+						var state = app.getState();
+						if(state.token) {
+							var token = state.token;
+							var headers = {};
+							if(token) {
+								headers.Authorization = 'Bearer ' + token;
+							}
+							var postData = {
+								"": JSON.stringify(jsonData)
+							};
+							var vw = plus.webview.currentWebview();
+							var qs = query + '&tabid=&isSystemDetermine=0';
+							mui.ajax(app.apihost + '/api/WorkFlow/FlowExecute?' + qs, {
+								dataType: 'json',
+								data: postData,
+								type: 'post',
+								timeout: 10000,
+								headers: headers,
+								success: function(xhr2) {
+									mui.alert(xhr2['message'], '系统提示', function() {
+
+									});
+									console.log('提交按钮' + JSON.stringify(xhr2));
+								},
+								error: function(xhr, type, errorThrown) {
+									console.log(JSON.stringify(xhr));
+								}
+							});
+
+						}
+
+					}, false);
+
+					//同意不同意开关
+					document.getElementById('auditSwitch').parentNode.querySelector('span').innerText = '状态：' + (document.getElementById('auditSwitch').classList.contains('mui-active') ? '同意' : '不同意');
+
+					/**
+					 * toggle 事件监听
+					 */
+					document.getElementById('auditSwitch').addEventListener('toggle', function(event) {
+
+						//event.detail.isActive 可直接获取当前状态
+						this.setAttribute('data-switch', (event.detail.isActive ? '1' : '0'));
+						this.parentNode.querySelector('span').innerText = '状态：' + (event.detail.isActive ? '同意' : '不同意');
+						if(event.detail.isActive) {
+							document.getElementById('auditMessage').value = '同意';
+						} else {
+							document.getElementById('auditMessage').value = '';
+						}
+					});
+
+				})(mui);
+
+				mui.plusReady(function() {
+					var vw = plus.webview.currentWebview(); 
+					//初始状态
+					if(vw.display == undefined) {  //创建申请
+						document.getElementById('offCanvasBtn').style.display = 'none';
+						var btn = document.querySelectorAll('button');
+						for(var j = 0; j < btn.length; j++) {
+							var _btn = btn[j];
+							_btn.disabled = false;
+						}
+						var ipt = document.querySelectorAll('input');
+						for(var i = 0; i < ipt.length; i++) {
+							var _ipt = ipt[i];
+							_ipt.disabled = false;
+						}
+					} else if(vw.display == '0') {  //审核
+						//document.getElementById('auditWrapper').style.display = 'block';
+					} else {
+						
+					}
+
+					console.log(app.apihost);
+					var state = app.getState();
+					if(state.token) {
+						var token = state.token;
+						var headers = {};
+						if(token) {
+							headers.Authorization = 'Bearer ' + token;
+						}
+
+						if(vw.display == undefined) {
+							/*
+							var postData = {
+								flowID: "1C973A4B-F065-49D5-81D7-FF409B330E16",
+								groupID: "",
+							};
+							mui.ajax(app.apihost + '/api/WorkFlow/GetFirstFlowTaskViewData', {
+								dataType: 'json',
+								data: postData,
+								type: 'post',
+								timeout: 10000,
+								headers: headers,
+								success: function(data) {
+									document.getElementById('Abs.UserID').value = data.UserID;
+									document.getElementById('Abs.UserName').value = data.UserName;
+									document.getElementById('Abs.CompanyId').value = data.CompanyId;
+									document.getElementById('Abs.CompanyName').value = data.CompanyName;
+									document.getElementById('Abs.DeptID').value = data.DeptID;
+									document.getElementById('Abs.DeptName').value = data.DeptName;
+									document.getElementById('Abs.CreateDatetime').innerText = data.CreateDatetime;
+									console.log('初始化获取默认值'+JSON.stringify(data));
+								},
+								error: function(xhr, type, errorThrown) {
+									console.log(JSON.stringify(xhr));
+								}
+							});
+							*/
+						}
+
+						var qs = 'flowid=' + (typeof(vw.flowid) == 'undefined' ? '' : vw.flowid) +
+							'&appid=' + (typeof(vw.appid) == 'undefined' ? '' : vw.appid) +
+							'&instanceid=' + (typeof(vw.instanceid) == 'undefined' ? '' : vw.instanceid) +
+							'&instanceid1=' + (typeof(vw.instanceid1) == 'undefined' ? '' : vw.instanceid1) +
+							'&taskid=' + (typeof(vw.taskid) == 'undefined' ? '' : vw.taskid) +
+							'&stepid=' + (typeof(vw.stepid) == 'undefined' ? '' : vw.stepid) +
+							'&groupid=' + (typeof(vw.groupid) == 'undefined' ? '' : vw.groupid) +
+							'&display=' + (typeof(vw.display) == 'undefined' ? '' : vw.display) +
+							'&isreadonly=' + (typeof(vw.isreadonly) == 'undefined' ? '' : vw.isreadonly) +
+							'&DBConnID=06075250-30dc-4d32-bf97-e922cb30fac8' +
+							'&DBTable=Abs' +
+							'&DBTablePK=ID' +
+							'&DBTableTitle=Title';
+
+						console.log('GetWorkFlowRunIndexParams:' + qs);
+						mui.ajax(app.apihost + '/api/WorkFlow/GetWorkFlowRunIndexParams?' + qs, {
+							dataType: 'json',
+							type: 'get',
+							timeout: 10000,
+							headers: headers,
+							success: function(xhrdata) {
+								console.log(JSON.stringify(xhrdata));
+
+								query = xhrdata["Data"]["query"];
+								if(xhrdata.code == '0') {
+									if(!xhrdata.Data.InitData) {
+										console.log('DefaultData');
+										var defaultData = xhrdata.Data.DefaultData;
+										document.getElementById('Abs.UserID').value = defaultData.UserID;
+										document.getElementById('Abs.UserName').value = defaultData.UserName;
+										document.getElementById('Abs.CompanyId').value = defaultData.CompanyId;
+										document.getElementById('Abs.CompanyName').value = defaultData.CompanyName;
+										document.getElementById('Abs.DeptID').value = defaultData.DeptID;
+										document.getElementById('Abs.DeptName').value = defaultData.DeptName;
+										document.getElementById('Abs.CreateDatetime').innerText = defaultData.CreateDatetime;
+										console.log('初始化获取默认值' + JSON.stringify(defaultData));
+									} else {
+										console.log('InitData:');
+										console.log(xhrdata.Data.HasFinish);
+										if(vw.display == '0' && xhrdata.Data.HasFinish > 0) {
+											document.getElementById('finishWrapper').style.display = "block";
+
+										} else if(vw.display == '0' && xhrdata.Data.HasFinish == 0) {
+											document.getElementById('auditWrapper').style.display = 'block';
+										} else if(vw.display == undefined && xhrdata.Data.HasFinish == 0) {
+											document.getElementById('submitButton').style.display = 'block';
+										}
+
+										var initData = JSON.parse(xhrdata.Data.InitData);
+										for(var fk in initData) {
+											var tagName = fk.replace('_', '.');
+											var htmlTag = document.getElementById(tagName);
+
+											if(htmlTag != null) {
+												if(htmlTag.tagName == "INPUT") {
+													htmlTag.value = initData[fk];
+												} else if(htmlTag.tagName == "BUTTON") {
+													htmlTag.innerText = initData[fk];
+												} else {
+													console.log(htmlTag.tagName);
+												}
+
+											}
+										}
+									}
+								}
+							},
+							error: function(xhr, type, errorThrown) {
+								console.log(JSON.stringify(xhr));
+							}
+						});
+
+						//获取审核流程
+						if(vw.flowid != undefined) {
+							var qs = 'flowid1=' + vw.flowid + '&groupid=' + vw.flowid + '&tabid=';
+							console.log('获取签核数据');
+							mui.ajax(app.apihost + '/api/WorkFlow/WorkFlowTaskDetail?' + qs, {
+								dataType: 'json',
+								type: 'get',
+								timeout: 10000,
+								headers: headers,
+								success: function(xhrdata) {
+									console.log(JSON.stringify(xhrdata));
+									Vue.nextTick(function() {
+										auditProgress.progress = auditProgress.progress.concat(xhrdata.Data.taskFlows)
+									})
+								},
+								error: function(xhr, type, errorThrown) {
+									console.log(JSON.stringify(xhr));
+								}
+							});
+						}
+
+						//获取审核上级
+						mui.ajax(app.apihost + '/api/WorkFlow/GetDeptTreeJson', {
+							dataType: 'json',
+							type: 'get',
+							timeout: 10000,
+							headers: headers,
+							success: function(xhrdata) {
+								console.log(JSON.stringify(xhrdata));
+								personnel = xhrdata;
+
+								//确定按钮
+								//-----------------------------------------
+								//					//级联示例
+								var formSubmit = new mui.PopPickerOA({
+									layer: 3,
+									className: "mui-picker-oa"
+								});
+
+								formSubmit.setData(personnel);
+
+								var formSubmitButton = document.getElementById('formsubmit');
+
+								formSubmitButton.addEventListener('tap', function(event) {
+									var _this = this;
+									formSubmit.show(function(items) {
+										_this.innerText = items[2].text;
+
+										//返回 false 可以阻止选择框的关闭
+										//return false;
+									});
+								}, false);
+
+								var triggerSubmitButton = document.getElementById('triggerSubmit');
+								triggerSubmitButton.addEventListener('tap', function(event) {
+									mui.trigger(formSubmitButton, 'tap');
+								});
+
+							},
+							error: function(xhr, type, errorThrown) {
+								console.log(JSON.stringify(xhr));
+							}
+						});
+
+					}
+				})
+			</script>
+	</body>
+
+</html>
